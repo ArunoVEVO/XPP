@@ -31,6 +31,7 @@ class TestParseFileSections(unittest.TestCase):
         'ПРАЙС T87\n'
         'Model A 🇷🇺 12/256 Black-12000\n'
         'Model A 🇪🇺 12/256 white -13000\n'
+        'Xiaomi 13 🇷🇺 12/512 Blue-15000\n'
     )
 
     def test_parse(self):
@@ -39,10 +40,12 @@ class TestParseFileSections(unittest.TestCase):
             with open(path, 'w', encoding='utf-8') as f:
                 f.write(self.SAMPLE)
             records = xpp.parse_file_sections(path)
-            self.assertEqual(len(records), 2)
+            self.assertEqual(len(records), 3)
             self.assertEqual(records[0]['memory'], '12/256')
             self.assertEqual(records[0]['color'], 'Black')
             self.assertEqual(records[1]['price'], 13000)
+            self.assertEqual(records[2]['model'], 'Xiaomi 13')
+            self.assertEqual(records[2]['memory'], '12/512')
 
 class TestGroupPositions(unittest.TestCase):
     def test_min_price(self):

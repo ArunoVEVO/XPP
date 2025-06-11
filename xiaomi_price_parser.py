@@ -8,7 +8,7 @@ import re
 from datetime import datetime
 
 DATE_PATTERN = re.compile(r"\d{2}\.\d{2}\.\d{2}$")
-REGION_EMOJIS = "🇷🇺🇪🇺🇨🇳🇬🇧"
+REGION_PATTERN = r"(?:🇷🇺|🇪🇺|🇨🇳|🇬🇧)"
 
 
 def select_date_dirs(base_dir: str = "."):
@@ -31,8 +31,9 @@ def collect_txt_files(dirs):
     return files
 
 
+MEMORY_RE = r"(?:\d+/\d+(?:gb|GB)?|\d+(?:gb|GB))"
 LINE_RE = re.compile(
-    rf"^(?P<model>.+?)\s*(?P<region>[{REGION_EMOJIS}])?\s*(?P<memory>\d+(?:/\d+)?(?:gb|GB)?)\s+(?P<color>.+?)\s*-?\s*(?P<price>\d+)\s*$"
+    rf"^(?P<model>.+?)\s*(?P<region>{REGION_PATTERN})?\s*(?P<memory>{MEMORY_RE})\s+(?P<color>.+?)\s*-?\s*(?P<price>\d+)\s*$"
 )
 
 
